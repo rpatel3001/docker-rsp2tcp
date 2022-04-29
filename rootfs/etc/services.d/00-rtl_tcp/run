@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv bash
+#shellcheck shell=bash
+
+rtl_tcp -g $GAIN -s $RATE -d $SERIAL -f $FREQ
