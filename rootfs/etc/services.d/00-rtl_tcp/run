@@ -1,4 +1,12 @@
 #!/usr/bin/with-contenv bash
 #shellcheck shell=bash
 
-rtl_tcp -g $GAIN -s $RATE -d $SERIAL -f $FREQ
+DEV=`rtl_sdr -d 9999 |& grep -P -o "\d(?=:\s*.+SN: $SERIAL)"`
+
+if [[ -n DEV ]]; then
+    rtl_tcp -g $GAIN -s $RATE -d $DEV -f $FREQ -P $PPM
+else
+    echo "No device with serial $SERIAL found. Choose from:"
+    rtl_sdr -d 9999 2>&1 | head -n 4
+    sleep 86400
+fi
