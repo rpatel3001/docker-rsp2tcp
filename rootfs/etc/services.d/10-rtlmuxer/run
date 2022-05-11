@@ -1,4 +1,0 @@
-#!/usr/bin/with-contenv bash
-#shellcheck shell=bash
-
-rtlmuxer --src-address=$SRC_ADDR --src-port=$SRC_PORT --sink-bind-address=$SINK_ADDR --sink-bind-port-a=$SINK_A_PORT --sink-bind-port-b=$SINK_B_PORT

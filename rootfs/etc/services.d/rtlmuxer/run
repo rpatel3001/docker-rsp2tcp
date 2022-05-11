@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv bash
+#shellcheck shell=bash
+
+rtlmuxer --src-address=127.0.0.1 --src-port=1234 --sink-bind-address=0.0.0.0 --sink-bind-port-b=$TCP_PORT
