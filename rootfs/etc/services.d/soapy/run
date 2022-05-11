@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv bash
+#shellcheck shell=bash
+
+if [[ -n "$SOAPY" ]]; then
+    python -u /scripts/soapy2tcp.py 2>&1 | stdbuf -o0 awk '{print "[soapy] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+else
+    echo "SOAPY env var must be set" 2>&1 | stdbuf -o0 awk '{print "[soapy] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+    sleep 86400
+fi
