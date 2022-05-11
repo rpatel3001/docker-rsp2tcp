@@ -1,5 +1,12 @@
 FROM ghcr.io/sdr-enthusiasts/docker-baseimage:soapyrtlsdr
 
+ENV SOAPY="" \
+    RATE=2100000 \
+    FREQ=133000000 \
+    PPM=0 \
+    GAIN=agc \
+    TCP_PORT=7374
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # hadolint ignore=DL3008,SC2086,DL4006,SC2039
@@ -19,17 +26,6 @@ RUN set -x && \
     apt-get install -y --no-install-recommends \
         "${KEPT_PACKAGES[@]}" \
         "${TEMP_PACKAGES[@]}" && \
-    # Deploy SoapyRTLTCP
-    git clone https://github.com/pothosware/SoapyRTLTCP.git /src/SoapyRTLTCP && \
-    pushd /src/SoapyRTLTCP && \
-    mkdir -p /src/SoapyRTLTCP/build && \
-    pushd /src/SoapyRTLTCP/build && \
-    cmake ../ -DCMAKE_BUILD_TYPE=Release && \
-    make all && \
-    make install && \
-    popd && popd && \
-    ldconfig && \
-    SoapySDRUtil --check=rtltcp && \
     # Deploy rtlmuxer
     git clone https://github.com/rpatel3001/rtlmuxer.git /src/rtlmuxer && \
     pushd /src/rtlmuxer && \
