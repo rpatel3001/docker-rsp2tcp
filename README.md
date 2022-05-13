@@ -1,4 +1,8 @@
 # docker-soapy2tcp
+
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rpatel3001/docker-soapy2tcp/Deploy%20to%20ghcr.io)](https://github.com/rpatel3001/docker-soapy2tcp/actions/workflows/deploy.yml)
+[![Discord](https://img.shields.io/discord/734090820684349521)](https://discord.gg/sTf9uYF)
+
 A Docker image to expose any SoapySDR compatible device as an rtl_tcp stream, with rtlmuxer interposed to allow multiple clients to consume the same data.
 
 Note: This has only been tested with an RTL-SDR device.
