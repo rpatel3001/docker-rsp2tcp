@@ -1,4 +1,4 @@
-name: Deploy to ghcr.io
+name: Build and deploy to ghcr.io
 
 on:
   workflow_dispatch:
@@ -7,7 +7,10 @@ on:
         required: true
         description: 'Reason for running this workflow'
   push:
-    branches: [ master ]
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
 
 jobs:
   build:
@@ -33,7 +36,6 @@ jobs:
     - name: 'Build:buildandpush'
       uses: docker/build-push-action@v3.0.0
       with:
-        no-cache: true
         push: true
         platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm/v6,linux/arm64
-        tags: ghcr.io/${{ github.repository }}:latest
+        tags: ghcr.io/${{ github.repository }}:latest,ghcr.io/${{ github.repository }}:${{ github.run_number }}-${{ github.sha }}
