@@ -5,6 +5,32 @@ Note: This has only been tested with an RTL-SDR device.
 
 ---
 
+## Up and running
+
+```
+version: '3'
+
+services:
+  soapy2tcp:
+    container_name: soapy2tcp
+    hostname: soapy2tcp
+    build: ghcr.io/rpatel3001/docker-soapy2tcp
+    restart: always
+    ports:
+      - 7374:7374
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    devices:
+      - /dev/bus/usb
+    environment:
+      - SOAPY=driver=rtlsdr,serial=00000136
+      - RATE=2310000
+      - FREQ=136000000
+      - PPM=35
+      - GAIN=40.2
+```
+
 ## Configuration options
 
 | Variable | Description | Required | Default |
