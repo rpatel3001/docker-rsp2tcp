@@ -7,6 +7,8 @@ ENV SOAPY="" \
     GAIN=agc \
     TCP_PORT=7374
 
+COPY sdrplay/ /src/sdrplay/
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # hadolint ignore=DL3008,SC2086,DL4006,SC2039
@@ -25,12 +27,30 @@ RUN set -x && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         "${KEPT_PACKAGES[@]}" \
-        "${TEMP_PACKAGES[@]}" && \
+        "${TEMP_PACKAGES[@]}"
+
+# hadolint ignore=DL3008,SC2086,DL4006,SC2039
+RUN set -x && \
     # Deploy rtlmuxer
     git clone https://github.com/rpatel3001/rtlmuxer.git /src/rtlmuxer && \
     pushd /src/rtlmuxer && \
     make && \
     cp rtlmuxer /usr/local/bin && \
+    popd && \
+    # install SDRPlay driver
+    pushd /src/sdrplay && \
+    chmod +x install.sh && \
+    ./install.sh && \
+    popd && \
+    # install SoapySDRPlay
+    git clone https://github.com/pothosware/SoapySDRPlay3.git /src/sdrplay/SoapySDRPlay3 && \
+    pushd /src/sdrplay/SoapySDRPlay3 && \
+    mkdir build && \
+    pushd build && \
+    cmake .. && \
+    make && \
+    make install && \
+    popd && popd && \
     # Clean up
     apt-get remove -y "${TEMP_PACKAGES[@]}" && \
     apt-get autoremove -y && \
