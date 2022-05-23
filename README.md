@@ -18,7 +18,7 @@ services:
   soapy2tcp:
     container_name: soapy2tcp
     hostname: soapy2tcp
-    build: ghcr.io/rpatel3001/docker-soapy2tcp
+    image: ghcr.io/rpatel3001/docker-soapy2tcp
     restart: always
     ports:
       - 7374:7374
