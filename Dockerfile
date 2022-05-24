@@ -1,10 +1,6 @@
 FROM ghcr.io/sdr-enthusiasts/docker-baseimage:soapyrtlsdr
 
 ENV SOAPY="" \
-    RATE=2100000 \
-    FREQ=133000000 \
-    PPM=0 \
-    GAIN=agc \
     TCP_PORT=7374
 
 COPY sdrplay/ /src/sdrplay/
