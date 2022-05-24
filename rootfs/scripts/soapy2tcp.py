@@ -30,13 +30,13 @@ else:
     sdr.setGainMode(SOAPY_SDR_RX, 0, False)
     sdr.setGain(SOAPY_SDR_RX, 0, gain)
 
-rxStream = sdr.setupStream(SOAPY_SDR_RX, SOAPY_SDR_CS8)
+rxStream = sdr.setupStream(SOAPY_SDR_RX, SOAPY_SDR_CS16)
 atexit.register(sdr.closeStream, rxStream)
 
 mtu = sdr.getStreamMTU(rxStream)
 print("Using stream MTU: %d"%mtu)
 
-buff = numpy.array([0]*mtu*2, numpy.int8)
+buff = numpy.array([0]*mtu*2, numpy.int16)
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.bind(("127.0.0.1", 1234))
