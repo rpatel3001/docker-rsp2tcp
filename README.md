@@ -5,7 +5,7 @@
 
 A Docker image to expose any SoapySDR compatible device as an rtl_tcp stream, with rtlmuxer interposed to allow multiple clients to consume the same data.
 
-Note: This has only been tested with an RTL-SDR device.
+Note: This only has the SoapySDR drivers for and has only been tested with an RTL-SDR and an AliExpress clone of an SDRplay RSP1.
 
 ---
 
