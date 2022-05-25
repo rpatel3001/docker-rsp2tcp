@@ -17,7 +17,6 @@ try:
     rate = float(environ["RATE"])
     print("Setting sample rate to: %f"%rate)
     sdr.setSampleRate(SOAPY_SDR_RX, 0, rate)
-    sdr.setBandwidth(SOAPY_SDR_RX, 0, rate)
 except KeyError:
     print("Missing RATE env var!")
     exit(1)
