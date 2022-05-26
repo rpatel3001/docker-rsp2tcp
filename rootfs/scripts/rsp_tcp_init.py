@@ -65,6 +65,15 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         pass
 
     try:
+        gain_index = int(environ["GAIN_INDEX"])
+        gain_indexb = pack(">ci", b"\x21", gain_index)
+        gain_indexs = ' '.join('{:02x}'.format(x) for x in gain_indexb)
+        print("Setting IFGR to: %d (%s)"%(gain_index,gain_indexs))
+        sock.sendall(gain_indexb)
+    except KeyError:
+        pass
+
+    try:
         agc = int(environ["AGC"])
         agcenb = pack(">ci", b"\x22", 1)
         agcens = ' '.join('{:02x}'.format(x) for x in agcenb)
@@ -77,7 +86,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         agcenb = pack(">ci", b"\x22", 1)
         agcens = ' '.join('{:02x}'.format(x) for x in agcenb)
         print("Disabling AGC (%s)"%(agcens))
-        sock.sendall(pack(">ci", b"\x22", 0))
+        sock.sendall(agcenb)
 
 while True:
     sleep(86400)
