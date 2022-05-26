@@ -76,7 +76,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     except KeyError:
         agcenb = pack(">ci", b"\x22", 1)
         agcens = ' '.join('{:02x}'.format(x) for x in agcenb)
-        print("Disabling AGC (%s)"%(agc,agcens))
+        print("Disabling AGC (%s)"%(agcens))
         sock.sendall(pack(">ci", b"\x22", 0))
 
 while True:
