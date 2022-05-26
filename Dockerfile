@@ -1,9 +1,6 @@
 FROM ghcr.io/sdr-enthusiasts/docker-baseimage:python
 
-ENV SOAPY="" \
-    TCP_PORT=7374
-
-COPY sdrplay/ /src/sdrplay/
+ENV TCP_PORT=7374
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -28,6 +25,8 @@ RUN set -x && \
         "${KEPT_PACKAGES[@]}" \
         "${TEMP_PACKAGES[@]}"
 
+COPY sdrplay/ /src/sdrplay/
+
 # hadolint ignore=DL3008,SC2086,DL4006,SC2039
 RUN set -x && \
     # Deploy rtlmuxer
@@ -45,6 +44,7 @@ RUN set -x && \
     # install SDRplay TCP server
     git clone https://github.com/SDRplay/RSPTCPServer.git /src/sdrplay/rsp_tcp && \
     pushd /src/sdrplay/rsp_tcp && \
+    patch --verbose -N < ../rsp_tcp.patch && \
     mkdir build && \
     pushd build && \
     cmake .. && \

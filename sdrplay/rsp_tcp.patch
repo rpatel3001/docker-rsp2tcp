@@ -1,0 +1,38 @@
+diff --git a/rsp_tcp.c b/rsp_tcp.c
+index 1a8c015..3faa273 100644
+--- a/rsp_tcp.c
++++ b/rsp_tcp.c
+@@ -2226,33 +2226,6 @@ int main(int argc, char **argv)
+ 			printf("failed to send dongle information\n");
+ 		}
+ 
+-		if (extended_mode)
+-		{
+-			rsp_extended_capabilities_t rsp_cap;
+-
+-			printf("sending RSP extended capabilities structure\n");
+-
+-			memset(&rsp_cap, 0, sizeof(rsp_extended_capabilities_t));
+-			memcpy(&rsp_cap.magic, RSP_CAPABILITIES_MAGIC, 4);
+-
+-			rsp_cap.version = htonl(RSP_CAPABILITIES_VERSION);
+-			rsp_cap.hardware_version = htonl(hardware_version);
+-			rsp_cap.capabilities = htonl(hardware_caps->capabilities);
+-			rsp_cap.sample_format = htonl(sample_format);
+-
+-			rsp_cap.antenna_input_count = hardware_caps->antenna_input_count;
+-			strcpy(rsp_cap.third_antenna_name, hardware_caps->third_antenna_name);
+-			rsp_cap.third_antenna_freq_limit = hardware_caps->third_antenna_freq_limit;
+-			rsp_cap.tuner_count = hardware_caps->tuner_count;
+-			rsp_cap.ifgr_min = hardware_caps->min_ifgr;
+-			rsp_cap.ifgr_max = hardware_caps->max_ifgr;
+-
+-			r = send(s, (const char *)&rsp_cap, sizeof(rsp_cap), 0);
+-			if (sizeof(rsp_cap) != r) {
+-				printf("failed to send RSP capabilities information\n");
+-			}
+-		}
+-
+ 		// must start the tcp_worker before the first samples are available from the rx
+ 		// because the rx_callback tries to send a condition to the worker thread
+ 		pthread_attr_init(&attr);
