@@ -1,4 +1,4 @@
-FROM ghcr.io/sdr-enthusiasts/docker-baseimage:soapyrtlsdr
+FROM ghcr.io/sdr-enthusiasts/docker-baseimage:python
 
 ENV SOAPY="" \
     TCP_PORT=7374
@@ -38,9 +38,9 @@ RUN set -x && \
     chmod +x install.sh && \
     ./install.sh && \
     popd && \
-    # install SoapySDRPlay
-    git clone https://github.com/pothosware/SoapySDRPlay3.git /src/sdrplay/SoapySDRPlay3 && \
-    pushd /src/sdrplay/SoapySDRPlay3 && \
+    # install SDRplay TCP server
+    git clone https://github.com/SDRplay/RSPTCPServer.git /src/sdrplay/rsp_tcp && \
+    pushd /src/sdrplay/rsp_tcp && \
     mkdir build && \
     pushd build && \
     cmake .. && \
