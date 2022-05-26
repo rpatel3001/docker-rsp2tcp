@@ -14,7 +14,7 @@ Note: This has only been tested with an AliExpress clone of an RSP1.
 version: '3'
 
 services:
-  soapy2tcp:
+  rsp2tcp:
     container_name: rsp2tcp
     hostname: rsp2tcp
     image: ghcr.io/rpatel3001/docker-rsp2tcp
