@@ -47,6 +47,21 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         pass
 
     try:
+        agc = int(environ["AGC"])
+        agcenb = pack(">ci", b"\x22", 1)
+        agcens = ' '.join('{:02x}'.format(x) for x in agcenb)
+        agcb = pack(">ci", b"\x23", agc)
+        agcs = ' '.join('{:02x}'.format(x) for x in agcb)
+        print("Enabling AGC with setpoint at: %d (%s, %s)"%(agc,agcens,agcs))
+        sock.sendall(agcenb)
+        sock.sendall(agcb)
+    except KeyError:
+        agcenb = pack(">ci", b"\x22", 1)
+        agcens = ' '.join('{:02x}'.format(x) for x in agcenb)
+        print("Disabling AGC (%s)"%(agcens))
+        sock.sendall(agcenb)
+
+    try:
         lna = int(environ["LNA"])
         lnab = pack(">ci", b"\x20", lna)
         lnas = ' '.join('{:02x}'.format(x) for x in lnab)
@@ -72,21 +87,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.sendall(gain_indexb)
     except KeyError:
         pass
-
-    try:
-        agc = int(environ["AGC"])
-        agcenb = pack(">ci", b"\x22", 1)
-        agcens = ' '.join('{:02x}'.format(x) for x in agcenb)
-        agcb = pack(">ci", b"\x23", agc)
-        agcs = ' '.join('{:02x}'.format(x) for x in agcb)
-        print("Enabling AGC with setpoint at: %d (%s, %s)"%(agc,agcens,agcs))
-        sock.sendall(agcenb)
-        sock.sendall(agcb)
-    except KeyError:
-        agcenb = pack(">ci", b"\x22", 1)
-        agcens = ' '.join('{:02x}'.format(x) for x in agcenb)
-        print("Disabling AGC (%s)"%(agcens))
-        sock.sendall(agcenb)
 
 while True:
     sleep(86400)
