@@ -81,7 +81,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 
     try:
         gain_index = int(environ["GAIN_INDEX"])
-        gain_indexb = pack(">ci", b"\x21", gain_index)
+        gain_indexb = pack(">ci", b"\x0d", gain_index)
         gain_indexs = ' '.join('{:02x}'.format(x) for x in gain_indexb)
         print("Setting IFGR to: %d (%s)"%(gain_index,gain_indexs))
         sock.sendall(gain_indexb)
