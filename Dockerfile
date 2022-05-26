@@ -45,6 +45,7 @@ RUN set -x && \
     git clone https://github.com/SDRplay/RSPTCPServer.git /src/sdrplay/rsp_tcp && \
     pushd /src/sdrplay/rsp_tcp && \
     patch --verbose -N < ../rsp_tcp.patch && \
+    sed -i "s#\([^f]\)printf(#\1fprintf(stderr, #" rsp_tcp.c && \
     mkdir build && \
     pushd build && \
     cmake .. && \
