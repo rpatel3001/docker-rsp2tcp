@@ -19,47 +19,64 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 
     try:
         rate = int(environ["RATE"])
-        print("Setting sample rate to: %d"%rate)
-        sock.sendall(pack(">ci", b"\x02", rate))
+        rateb = pack(">ci", b"\x02", rate)
+        rates = ' '.join('{:02x}'.format(x) for x in rateb)
+        print("Setting sample rate to: %d (%s)"%(rate,rates))
+        sock.sendall(rateb)
     except KeyError:
         print("Missing RATE env var!")
         exit(1)
 
     try:
         freq = int(environ["FREQ"])
-        print("Setting center frequency to: %d"%freq)
-        sock.sendall(pack(">ci", b"\x01", freq))
+        freqb = pack(">ci", b"\x01", freq)
+        freqs = ' '.join('{:02x}'.format(x) for x in freqb)
+        print("Setting center frequency to: %d (%s)"%(freq,freqs))
+        sock.sendall(freqb)
     except KeyError:
         print("Missing FREQ env var!")
         exit(1)
 
     try:
         ppm = int(environ["PPM"])
-        print("Setting frequency correction to: %d"%ppm)
-        sock.sendall(pack(">ci", b"\x05", ppm))
+        ppmb = pack(">ci", b"\x05", ppm)
+        ppms = ' '.join('{:02x}'.format(x) for x in ppmb)
+        print("Setting frequency correction to: %d (%s)"%(ppm,ppms))
+        sock.sendall(ppmb)
     except KeyError:
         pass
 
     try:
         lna = int(environ["LNA"])
-        print("Setting LNA state to: %d"%lna)
-        sock.sendall(pack(">ci", b"\x20", lna))
+        lnab = pack(">ci", b"\x20", lna)
+        lnas = ' '.join('{:02x}'.format(x) for x in lnab)
+        print("Setting LNA state to: %d (%s)"%(lna,lnas))
+        sock.sendall(lnab)
     except KeyError:
         pass
 
     try:
         ifgr = int(environ["IFGR"])
-        print("Setting IFGR to: %d"%ifgr)
-        sock.sendall(pack(">ci", b"\x21", ifgr))
+        ifgrb = pack(">ci", b"\x21", ifgr)
+        ifgrs = ' '.join('{:02x}'.format(x) for x in ifgrb)
+        print("Setting IFGR to: %d (%s)"%(ifgr,ifgrs))
+        sock.sendall(ifgrb)
     except KeyError:
         pass
 
     try:
         agc = int(environ["AGC"])
-        print("Enabling AGC with setpoint at: %d"%agc)
-        sock.sendall(pack(">ci", b"\x22", 1))
-        sock.sendall(pack(">ci", b"\x23", agc))
+        agcenb = pack(">ci", b"\x22", 1)
+        agcens = ' '.join('{:02x}'.format(x) for x in agcenb)
+        agcb = pack(">ci", b"\x23", agc)
+        agcs = ' '.join('{:02x}'.format(x) for x in agcb)
+        print("Enabling AGC with setpoint at: %d (%s, %s)"%(agc,agcens,agcs))
+        sock.sendall(agcenb)
+        sock.sendall(agcb)
     except KeyError:
+        agcenb = pack(">ci", b"\x22", 1)
+        agcens = ' '.join('{:02x}'.format(x) for x in agcenb)
+        print("Disabling AGC (%s)"%(agc,agcens))
         sock.sendall(pack(">ci", b"\x22", 0))
 
 while True:
