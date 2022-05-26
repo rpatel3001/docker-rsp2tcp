@@ -1,10 +1,10 @@
-# docker-rsptcp
+# docker-rsp2tcp
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rpatel3001/docker-rsptcp/Deploy%20to%20ghcr.io)](https://github.com/rpatel3001/docker-rsptcp/actions/workflows/deploy.yml)
 [![Discord](https://img.shields.io/discord/734090820684349521)](https://discord.gg/sTf9uYF)
 
 A Docker image to expose an SDRplay device as an rtl_tcp compatible stream using rsp_tcp, with rtlmuxer interposed to allow multiple clients to consume the same data.
 
-Note: This has only been tested with an AliExpress clone of an SDRplay RSP1.
+Note: This has only been tested with an AliExpress clone of an RSP1.
 
 ---
 
@@ -15,9 +15,9 @@ version: '3'
 
 services:
   soapy2tcp:
-    container_name: soapy2tcp
-    hostname: soapy2tcp
-    image: ghcr.io/rpatel3001/docker-soapy2tcp
+    container_name: rsp2tcp
+    hostname: rsp2tcp
+    image: ghcr.io/rpatel3001/docker-rsp2tcp
     restart: always
     ports:
       - 7374:7374

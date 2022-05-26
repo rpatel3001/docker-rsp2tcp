@@ -34,6 +34,7 @@ RUN set -x && \
     cp rtlmuxer /usr/local/bin && \
     popd && \
     # install SDRPlay driver
+    mkdir -p /etc/udev/rules.d && \
     pushd /src/sdrplay && \
     chmod +x install.sh && \
     ./install.sh && \
